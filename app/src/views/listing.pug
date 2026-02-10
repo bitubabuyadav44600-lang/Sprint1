@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  h1= title
+  .card
+    p
+      strong Owner:
+      |  #{listing.owner_name} (#{listing.owner_area || "Area not set"})
+    p
+      strong Quantity:
+      |  #{listing.quantity}
+    p
+      strong Expiry:
+      |  #{listing.expiry_date}
+    p
+      strong Pickup location:
+      |  #{listing.pickup_location}
+    p
+      strong Pickup window:
+      |  #{listing.pickup_window}
+    p
+      strong Status:
+      |  #{listing.status}
+    if listing.description
+      p
+        strong Description:
+        |  #{listing.description}
+
+    if tags.length
+      p
+        strong Tags:
+      div
+        each t in tags
+          a.tag(href=`/tags/${t.id}`)= t.name
+    else
+      p.muted No tags assigned.

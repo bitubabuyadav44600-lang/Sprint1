@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  h1= title
+  .card
+    p
+      strong Name:
+      |  #{user.full_name}
+    p
+      strong Email:
+      |  #{user.email}
+    p
+      strong Area:
+      |  #{user.area || "Not set"}
+    if user.bio
+      p
+        strong Bio:
+        |  #{user.bio}
+
+  h2 Listings by this user
+  if listings.length === 0
+    p No listings yet.
+  else
+    each l in listings
+      .card
+        h3
+          a(href=`/listings/${l.id}`)= l.title
+        p.muted Status: #{l.status} • Expiry: #{l.expiry_date} • Qty: #{l.quantity}

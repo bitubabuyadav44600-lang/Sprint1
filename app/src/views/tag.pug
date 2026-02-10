@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1= title
+  p.muted Showing listings with tag: #{tag.name}
+
+  if listings.length === 0
+    p No listings for this tag.
+  else
+    each l in listings
+      .card
+        h3
+          a(href=`/listings/${l.id}`)= l.title
+        p.muted Owner: #{l.owner_name} • Expiry: #{l.expiry_date} • Status: #{l.status}

@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  if users.length === 0
+    p No users yet.
+  else
+    each u in users
+      .card
+        h3
+          a(href=`/users/${u.id}`)= u.full_name
+        p.muted #{u.email} • #{u.area || "Area not set"}
+        p.muted Joined: #{u.created_at}

@@ -1,0 +1,16 @@
+{
+  "name": "balen-food-share",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "mysql2": "^3.11.0",
+    "pug": "^3.0.3"
+  }
+}

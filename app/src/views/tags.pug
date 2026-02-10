@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h1= title
+  if tags.length === 0
+    p No tags yet.
+  else
+    each t in tags
+      .card
+        a(href=`/tags/${t.id}`)= t.name

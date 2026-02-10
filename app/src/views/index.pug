@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to the Sprint 1 scaffolding site.
+  ul
+    each link in links
+      li
+        a(href=link.href)= link.label

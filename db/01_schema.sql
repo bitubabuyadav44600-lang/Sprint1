@@ -1,0 +1,35 @@
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  full_name VARCHAR(120) NOT NULL,
+  email VARCHAR(120) NOT NULL UNIQUE,
+  area VARCHAR(120) NULL,
+  bio TEXT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS listings (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  title VARCHAR(160) NOT NULL,
+  description TEXT NULL,
+  quantity VARCHAR(60) NOT NULL,
+  expiry_date DATE NOT NULL,
+  pickup_location VARCHAR(200) NOT NULL,
+  pickup_window VARCHAR(120) NOT NULL,
+  status ENUM('available','reserved','collected') NOT NULL DEFAULT 'available',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_listings_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS tags (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(60) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS listing_tags (
+  listing_id INT NOT NULL,
+  tag_id INT NOT NULL,
+  PRIMARY KEY (listing_id, tag_id),
+  CONSTRAINT fk_lt_listing FOREIGN KEY (listing_id) REFERENCES listings(id) ON DELETE CASCADE,
+  CONSTRAINT fk_lt_tag FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
+);

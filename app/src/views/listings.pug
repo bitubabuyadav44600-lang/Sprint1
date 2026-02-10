@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  if listings.length === 0
+    p No listings available.
+  else
+    each l in listings
+      .card
+        h3
+          a(href=`/listings/${l.id}`)= l.title
+        p.muted Owner: #{l.owner_name}
+        p.muted Qty: #{l.quantity} • Expiry: #{l.expiry_date} • Status: #{l.status}

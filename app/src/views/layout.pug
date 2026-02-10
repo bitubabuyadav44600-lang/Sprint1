@@ -1,0 +1,22 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    title= title
+    style.
+      body { font-family: Arial, sans-serif; margin: 24px; max-width: 980px; }
+      a { text-decoration: none; }
+      nav a { margin-right: 12px; }
+      .card { border: 1px solid #ddd; padding: 14px; border-radius: 10px; margin: 10px 0; }
+      .muted { color: #666; }
+      .tag { display:inline-block; padding: 2px 8px; border:1px solid #ccc; border-radius: 999px; margin-right: 6px; }
+  body
+    nav
+      a(href="/") Home
+      a(href="/users") Users
+      a(href="/listings") Listings
+      a(href="/tags") Tags
+      a(href="/health") Health
+    hr
+    block content
