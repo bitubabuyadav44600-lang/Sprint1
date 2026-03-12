@@ -1,0 +1,90 @@
+extends layout
+
+block content
+  .container(style="max-width: 800px; margin: 0 auto;")
+    if req && req.query && req.query.msg
+      .alert.alert-success= req.query.msg
+      
+    .card(style="padding: 0; overflow: hidden;")
+      if item.photo_url
+        img(src=item.photo_url style="width: 100%; height: 350px; object-fit: cover;" alt=item.title)
+      else
+        div(style="width: 100%; height: 200px; background: var(--accent-color); display: flex; align-items: center; justify-content: center; color: white;")
+          span(style="font-size: 3rem;") 🍽️
+          
+      .card-body(style="padding: 30px;")
+        .flex.justify-between.items-center.mb-4
+          h1(style="margin: 0; color: var(--primary-hover);")= item.title
+          div
+            span.badge(class=`status-${item.status}` style="font-size: 1rem; padding: 6px 15px;")= item.status
+            each c in categories
+              span.badge(style="background:#eee; color:#333; margin-left:5px; font-size: 1rem; padding: 6px 15px;")= c.name
+          
+        .grid(style="grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px;")
+          div
+            p.text-secondary.mb-2 🏷️ Category
+            p(style="font-weight: 600;")
+              each c in categories
+                span.badge(style="background:#eee; color:#333; margin-right:5px;")= c.name
+            
+          div
+            p.text-secondary.mb-2 🕒 Expiry Date
+            p(style="font-weight: 600;") #{new Date(item.expiry_date).toLocaleDateString()}
+            
+          div
+            p.text-secondary.mb-2 📍 Pickup Location
+            p(style="font-weight: 600;")= item.pickup_location
+            
+          div
+            p.text-secondary.mb-2 👤 Donated By
+            p(style="font-weight: 600; margin-bottom: 5px;")= item.owner_name
+            if user && user.id !== item.user_id
+              a(href=`/messages/${item.id}` style="font-size: 0.9rem; text-decoration: underline;") Message Owner
+
+        if item.description
+          .mb-4
+            p.text-secondary.mb-2 📝 Description
+            p= item.description
+
+        if tags.length > 0
+          .mb-4
+            p.text-secondary.mb-2 ⚠️ Dietary & Allergen Info
+            div
+              each t in tags
+                a.tag(href=`/tags/${t.id}`)= t.name
+        
+        hr(style="border: 0; border-top: 1px solid var(--border-color); margin: 30px 0;")
+        
+        if item.status === 'Available'
+          if user
+             if user.id === item.user_id
+               .flex.gap-4
+                 a.btn.btn-outline(href=`/listings/${item.id}/edit` style="flex: 1;") Edit Listing
+                 form(method="POST" action=`/listings/${item.id}/delete` style="flex: 1;" onsubmit="return confirm('Are you sure you want to delete this listing?')")
+                   button.btn.btn-outline(type="submit" style="width: 100%; border-color: var(--status-expired); color: var(--status-expired);") Delete Listing
+             else
+               form(method="POST" action=`/listings/${item.id}/claim`)
+                 button.btn.btn-primary.btn-block(type="submit" style="font-size: 1.1rem; padding: 15px;") Claim This Item
+          else
+            .text-center
+              p.text-secondary Please log in to claim this item.
+              a.btn.btn-outline(href="/auth/login" style="margin-top: 10px;") Log In
+        else if item.status === 'Reserved'
+          if user && user.id === item.user_id
+            .card(style="background: #fffcf0; border: 1px solid var(--status-reserved); padding: 20px;")
+              h4(style="color: #856404; margin-bottom: 15px;") 📦 Item is Reserved
+              p.mb-4 Someone has claimed this item! Coordinate the pickup, then mark it as collected once done.
+              .flex.gap-4
+                form(method="POST" action=`/listings/${item.id}/collect` style="flex: 2;")
+                  button.btn.btn-primary.btn-block(type="submit") Mark as Collected
+                a.btn.btn-outline(href=`/messages/${item.id}` style="flex: 1; text-align: center; border-color: #856404; color: #856404;") Message Claimer
+                a.btn.btn-outline(href=`/listings/${item.id}/edit` style="flex: 1;") Edit
+          else if user
+            .card(style="background: #fffcf0; border: 1px solid var(--status-reserved); padding: 20px; text-align: center;")
+              h4(style="color: #856404; margin-bottom: 10px;") 📦 Item Reserved
+              p.mb-4 To coordinate pickup, stay in touch with the owner!
+              a.btn.btn-outline(href=`/messages/${item.id}` style="border-color: #856404; color: #856404;") Message Owner
+          else
+            .alert.alert-error(style="margin: 0;") This item is currently reserved and cannot be claimed.
+        else
+          .alert.alert-error(style="margin: 0;") This item is currently #{item.status.toLowerCase()} and cannot be claimed.

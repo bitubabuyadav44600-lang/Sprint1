@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  .flex.justify-between.items-center.mb-4
+    h1 #{title}
+    p.text-secondary Filter food items by these dietary and allergen tags
+    
+  if tags.length === 0
+    p No tags yet.
+  else
+    .grid(style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));")
+      each t in tags
+        .card.hoverable.text-center(style="padding: 20px;")
+          a(href=`/tags/${t.id}` style="font-size: 1.2rem; font-weight: 600; display: block;")= t.name

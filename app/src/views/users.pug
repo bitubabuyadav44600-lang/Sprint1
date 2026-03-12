@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  .flex.justify-between.items-center.mb-4
+    h1 #{title}
+    p.text-secondary Members of Balen Food Share
+
+  if users.length === 0
+    .alert.alert-success No users registered yet.
+  else
+    .grid(style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));")
+      each u in users
+        .card.hoverable
+          h3(style="margin-bottom: 5px;")
+            a(href=`/users/${u.id}`) 👤 #{u.name}
+          p.text-secondary(style="margin-bottom: 10px; font-size: 0.9em;") 📧 #{u.email}
+          p.text-secondary(style="font-size: 0.85em; margin-top: 15px;") Joined: #{new Date(u.created_at).toLocaleDateString()}

@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  .flex.justify-between.items-center.mb-4(style="flex-wrap: wrap; gap: 15px;")
+    h1 #{title}
+    form(method="GET" action="/listings").flex.gap-2
+      input.form-control(type="text" name="q" placeholder="Search food..." value=currentSearch style="width: auto; flex: 1;")
+      select.form-control(name="category" style="width: auto;")
+        option(value="") All Categories
+        option(value="Produce" selected=currentFilter==='Produce') Produce
+        option(value="Bakery" selected=currentFilter==='Bakery') Bakery
+        option(value="Packaged" selected=currentFilter==='Packaged') Packaged
+        option(value="Prepared" selected=currentFilter==='Prepared') Prepared
+      button.btn.btn-outline(type="submit") Search
+      
+  .grid
+    each item in items
+      .card.hoverable
+        if item.photo_url
+          img(src=item.photo_url style="width:100%; height:200px; object-fit:cover; border-radius:8px; margin-bottom:15px;" alt="Food Image")
+        h3= item.title
+        .mb-2
+          span.badge(class=`status-${item.status}`)= item.status
+          span.badge(style="background:#eee; color:#333; margin-left:5px;")= item.category
+        p.text-secondary 📍 #{item.pickup_location}
+        p.text-secondary 🕒 Expiry: #{new Date(item.expiry_date).toLocaleDateString()}
+        
+        a.btn.btn-outline.btn-block.mt-4(href=`/listings/${item.id}`) View Details
+    else
+      p No available items found.

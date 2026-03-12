@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  .auth-header
+    h1 📊 Community Impact Dashboard
+    p.text-secondary Real-time stats on how our university is saving food and the planet.
+
+  .grid(style="margin-top: 40px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));")
+    .card.text-center(style="border-bottom: 5px solid var(--primary-color);")
+      div(style="font-size: 3rem; margin-bottom: 10px;") 🍎
+      h2(style="font-size: 2.5rem;")= stats.total_items
+      p.text-secondary Items Shared
+      
+    .card.text-center(style="border-bottom: 5px solid var(--status-collected);")
+      div(style="font-size: 3rem; margin-bottom: 10px;") ✅
+      h2(style="font-size: 2.5rem;")= stats.items_collected
+      p.text-secondary Items Saved
+      
+    .card.text-center(style="border-bottom: 5px solid var(--status-reserved);")
+      div(style="font-size: 3rem; margin-bottom: 10px;") 👥
+      h2(style="font-size: 2.5rem;")= stats.active_donors
+      p.text-secondary Active Donors
+      
+    .card.text-center(style="border-bottom: 5px solid #000; background: #f0fdf4;")
+      div(style="font-size: 3rem; margin-bottom: 10px;") 🌳
+      h2(style="font-size: 2.5rem;") #{stats.co2_saved}kg
+      p.text-secondary CO2 Emissions Prevented
+
+  .card.hoverable(style="margin-top: 30px; display: flex; align-items: center; gap: 30px; padding: 40px;")
+    div(style="flex: 1;")
+      h2 Why this matters?
+      p.text-secondary(style="font-size: 1.1rem; margin-top: 15px;") Food waste is one of the biggest contributors to climate change. Each item you share through this platform reduces the need for new production and prevents methane emissions from landfills.
+      a.btn.btn-primary.mt-4(href="/listings") Start Sharing Today
+    div(style="font-size: 8rem; opacity: 0.1;") 🌍

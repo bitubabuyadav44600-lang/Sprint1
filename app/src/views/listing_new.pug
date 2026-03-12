@@ -1,0 +1,42 @@
+extends layout
+
+block content
+  .card
+    h1 Post a New Item
+    
+    form(method="POST" action="/listings" enctype="multipart/form-data")
+      .form-group
+        label.form-label Photo (optional)
+        input.form-control(type="file" name="photo" accept="image/*")
+        
+      .form-group
+        label.form-label Title
+        input.form-control(type="text" name="title" required)
+        
+      .form-group
+        label.form-label Description
+        textarea.form-control(name="description" rows="3")
+        
+      .form-group
+        label.form-label Category (Select all that apply)
+        select.form-control(name="categories" multiple size="4" required)
+          each c in categories
+            option(value=c.id)= c.name
+        small.text-secondary Hold Ctrl/Cmd to select multiple categories
+          
+      .form-group
+        label.form-label Expiry Date
+        input.form-control(type="date" name="expiry_date" required)
+        
+      .form-group
+        label.form-label Pickup Location
+        input.form-control(type="text" name="pickup_location" required)
+        
+      .form-group
+        label.form-label Dietary/Allergen Tags
+        select.form-control(name="tags" multiple size="4")
+          each tag in tags
+            option(value=tag.id)= tag.name
+        small.text-secondary Hold Ctrl/Cmd to select multiple
+        
+      button.btn.btn-primary.mt-4(type="submit") Post Item

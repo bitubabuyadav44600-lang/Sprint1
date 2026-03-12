@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  .flex.justify-between.items-center.mb-4
+    h1 #{title}
+    p.text-secondary Your ongoing conversations about food items.
+    
+  if conversations.length === 0
+    .alert.alert-success You haven't received or sent any messages yet.
+  else
+    .grid(style="grid-template-columns: 1fr;")
+      each conv in conversations
+        .card.hoverable(style="display: flex; gap: 20px; align-items: center; padding: 15px;")
+          if conv.photo_url
+            img(src=conv.photo_url style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px;")
+          else
+            div(style="width: 80px; height: 80px; background: var(--accent-color); display: flex; align-items: center; justify-content: center; color: white; border-radius: 8px;")
+              span(style="font-size: 2rem;") 🍽️
+              
+          div(style="flex: 1;")
+            h3(style="margin-bottom: 5px;")
+              a(href=`/messages/${conv.item_id}`) Item: #{conv.title}
+            p.text-secondary(style="margin-bottom: 5px;") 💬 "#{conv.last_message.substring(0, 50)}..."
+            p.text-secondary(style="font-size: 0.85em;") Last activity: #{new Date(conv.last_message_date).toLocaleString()}
+          
+          div
+            a.btn.btn-outline(href=`/messages/${conv.item_id}`) View Chat

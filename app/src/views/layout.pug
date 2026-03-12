@@ -1,0 +1,35 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    title #{title} | Community Food Share
+    link(rel="stylesheet", href="/css/style.css")
+    link(href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap", rel="stylesheet")
+  body
+    nav.navbar
+      .container
+        a.navbar-brand(href="/") 
+          span.brand-icon 🍃 
+          | Food Share
+        .navbar-nav
+          a(href="/dashboard") Impact Dashboard
+          a(href="/listings") Browse Feed
+          a(href="/tags") Categories & Tags
+          if user
+            a(href="/messages") Messages 💬
+            a.btn.btn-primary(href="/listings/new") Post Item
+            a(href=`/users/${user.id}`) My Profile
+            a.btn.btn-outline.btn-sm(href="/auth/logout") Logout (#{user.name})
+          else
+            a(href="/auth/login") Login
+            a.btn.btn-primary(href="/auth/register") Register
+    
+    main
+      .container
+        block content
+        
+    footer
+      .container
+        p &copy; 2026 Balen Community Food Share
+        p.text-secondary Helping the university community reduce waste.

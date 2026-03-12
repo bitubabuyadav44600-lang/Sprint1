@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  .auth-container
+    .card.hoverable
+      .auth-header
+        h1 Welcome Back
+        p Log in to continue
+      
+      if msg
+        .alert.alert-success= msg
+      
+      if error
+        .alert.alert-error= error
+        
+      form(method="POST" action="/auth/login")
+        .form-group
+          label.form-label(for="email") University Email
+          input.form-control(type="email" name="email" id="email" required placeholder="student@university.edu")
+          
+        .form-group
+          label.form-label(for="password") Password
+          input.form-control(type="password" name="password" id="password" required)
+          
+        button.btn.btn-primary.btn-block.mt-4(type="submit") Log In
+        
+      .text-center.mt-4
+        p.text-secondary Don't have an account? 
+          a(href="/auth/register") Register here.

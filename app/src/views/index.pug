@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  .card(style="text-align: center; padding: 60px 20px; background: linear-gradient(135deg, var(--accent-color), var(--primary-color)); color: white; border: none; margin-top: 20px;")
+    h1(style="font-size: 2.5rem; margin-bottom: 20px; color: white;") Minimize Waste, Maximize Community
+    p(style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 30px; opacity: 0.9;") Balen Community Food Share helps university students and staff share surplus food easily and ethically, saving money and the planet.
+    .flex(style="justify-content: center; gap: 15px;")
+      a.btn(href="/listings" style="background: white; color: var(--primary-color); padding: 12px 30px; font-size: 1.1rem;") Browse Food
+      if !user
+        a.btn(href="/auth/register" style="background: transparent; border: 2px solid white; color: white; padding: 12px 30px; font-size: 1.1rem;") Join Now
+
+  .grid(style="margin-top: 40px;")
+    .card.hoverable.text-center
+      div(style="font-size: 3rem; margin-bottom: 15px;") 🤝
+      h3 Share Surplus
+      p.text-secondary Got extra food? Post it here so someone in the community can use it instead of throwing it away!
+    
+    .card.hoverable.text-center
+      div(style="font-size: 3rem; margin-bottom: 15px;") 🥗
+      h3 Claim For Free
+      p.text-secondary Browse the feed and reserve available food for pickup. Helping you reduce grocery spending!
+      
+    .card.hoverable.text-center
+      div(style="font-size: 3rem; margin-bottom: 15px;") 🌱
+      h3 Save The Planet
+      p.text-secondary By sharing and using surplus food, we collectively lower the university's environmental footprint.

@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  .auth-container
+    .card.hoverable
+      .auth-header
+        h1 Create an Account
+        p Join the Community Food Share network
+      
+      if error
+        .alert.alert-error= error
+        
+      form(method="POST" action="/auth/register")
+        .form-group
+          label.form-label(for="name") Full Name
+          input.form-control(type="text" name="name" id="name" required placeholder="E.g., Aisha Khan")
+          
+        .form-group
+          label.form-label(for="email") University Email
+          input.form-control(type="email" name="email" id="email" required placeholder="student@university.edu")
+          
+        .form-group
+          label.form-label(for="password") Password
+          input.form-control(type="password" name="password" id="password" required placeholder="Choose a secure password")
+          
+        .form-group
+          label.form-label(for="confirmPassword") Confirm Password
+          input.form-control(type="password" name="confirmPassword" id="confirmPassword" required placeholder="Repeat your password")
+          
+        button.btn.btn-primary.btn-block.mt-4(type="submit") Create Account
+        
+      .text-center.mt-4
+        p.text-secondary Already have an account? 
+          a(href="/auth/login") Log in here.

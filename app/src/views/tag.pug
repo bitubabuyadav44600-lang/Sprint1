@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  .flex.justify-between.items-center.mb-4
+    h1 #{title}
+    a.btn.btn-outline(href="/tags") Back to Tags
+
+  if items.length === 0
+    .alert.alert-success No items currently available for this tag.
+  else
+    .grid
+      each item in items
+        .card.hoverable
+          h3(style="margin-bottom: 10px;")
+            a(href=`/listings/${item.id}`)= item.title
+          .mb-2
+            span.badge(class=`status-${item.status}`)= item.status
+            span.badge(style="background:#eee; color:#333; margin-left:5px;")= item.category
+          p.text-secondary 📍 #{item.pickup_location}
+          p.text-secondary 🕒 Expiry: #{new Date(item.expiry_date).toLocaleDateString()}
+          p.text-secondary(style="margin-top: 10px;") 👤 Owner: #{item.owner_name}

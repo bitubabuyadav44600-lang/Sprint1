@@ -1,0 +1,50 @@
+extends layout
+
+block content
+  .card(style="max-width: 700px; margin: 0 auto;")
+    h1 Edit Item
+    p.text-secondary Update the details for your food listing.
+    
+    form(method="POST" action=`/listings/${item.id}` enctype="multipart/form-data")
+      .form-group.mt-4
+        label.form-label Current Photo
+        if item.photo_url
+          img(src=item.photo_url style="width: 150px; height: 100px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; display: block;")
+        else
+          p.text-secondary No photo uploaded.
+        label.form-label Replace Photo (optional)
+        input.form-control(type="file" name="photo" accept="image/*")
+        
+      .form-group
+        label.form-label Title
+        input.form-control(type="text" name="title" required value=item.title)
+        
+      .form-group
+        label.form-label Description
+        textarea.form-control(name="description" rows="3")= item.description
+        
+      .form-group
+        label.form-label Category (Select all that apply)
+        select.form-control(name="categories" multiple size="4" required)
+          each c in categories
+            option(value=c.id selected=itemCatIds.includes(c.id))= c.name
+        small.text-secondary Hold Ctrl/Cmd to select multiple categories
+          
+      .form-group
+        label.form-label Expiry Date
+        input.form-control(type="date" name="expiry_date" required value=new Date(item.expiry_date).toISOString().split('T')[0])
+        
+      .form-group
+        label.form-label Pickup Location
+        input.form-control(type="text" name="pickup_location" required value=item.pickup_location)
+        
+      .form-group
+        label.form-label Dietary/Allergen Tags
+        select.form-control(name="tags" multiple size="6")
+          each tag in tags
+            option(value=tag.id selected=itemTagIds.includes(tag.id))= tag.name
+        small.text-secondary Hold Ctrl/Cmd to select multiple tags
+        
+      .flex.gap-4.mt-4
+        button.btn.btn-primary(type="submit") Save Changes
+        a.btn.btn-outline(href=`/listings/${item.id}`) Cancel

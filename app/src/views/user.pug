@@ -1,0 +1,45 @@
+extends layout
+
+block content
+  .card(style="text-align: center; margin-bottom: 30px;")
+    div(style="font-size: 4rem; margin-bottom: 10px;") 👤
+    h1(style="margin-bottom: 5px;")= userProfile.name
+    p.text-secondary(style="margin-bottom: 20px;") 📧 #{userProfile.email}
+    p.text-secondary Member Since: #{new Date(userProfile.created_at).toLocaleDateString()}
+    
+    .flex(style="justify-content: center; gap: 30px; margin-top: 20px;")
+      div
+        p(style="font-size: 2rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0;")= stats.items_given
+        p.text-secondary Items Shared
+      div
+        p(style="font-size: 2rem; font-weight: 700; color: var(--status-collected); margin-bottom: 0;")= stats.items_saved
+        p.text-secondary Items Saved
+
+  h2.mb-4(style="margin-top: 40px;") Food Listings by #{userProfile.name}
+  
+  if items.length === 0
+    .alert.alert-success This user hasn't posted any food items yet.
+  else
+    .grid
+      each item in items
+        .card.hoverable
+          h3(style="margin-bottom: 10px;")
+            a(href=`/listings/${item.id}`)= item.title
+          .mb-2
+            span.badge(class=`status-${item.status}`)= item.status
+            span.badge(style="background:#eee; color:#333; margin-left:5px;")= item.category
+          p.text-secondary 📍 #{item.pickup_location}
+          p.text-secondary 🕒 Expiry: #{new Date(item.expiry_date).toLocaleDateString()}
+  if user && user.id === userProfile.id && claimedItems.length > 0
+    h2.mb-4(style="margin-top: 40px;") Items I've Claimed
+    .grid
+      each item in claimedItems
+        .card.hoverable(style="border-left: 5px solid var(--status-reserved);")
+          h3(style="margin-bottom: 10px;")
+            a(href=`/listings/${item.id}`)= item.title
+          .mb-2
+            span.badge(class=`status-${item.status}`)= item.status
+            span.badge(style="background:#eee; color:#333; margin-left:5px;")= item.category
+          p.text-secondary 👤 Owner: #{item.owner_name}
+          p.text-secondary 📍 Pickup: #{item.pickup_location}
+          p.text-secondary 🕒 Expiry: #{new Date(item.expiry_date).toLocaleDateString()}

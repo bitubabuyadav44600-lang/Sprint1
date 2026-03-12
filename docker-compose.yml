@@ -1,0 +1,54 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: balen_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: balen_db
+      MYSQL_USER: balen_user
+      MYSQL_PASSWORD: balen_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./db:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prootpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build:
+      context: ./app
+    container_name: balen_app
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PORT: 3000
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: balen_db
+      DB_USER: balen_user
+      DB_PASSWORD: balen_pass
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./app/src:/usr/src/app/src
+    command: ["npm", "run", "dev"]
+
+  adminer:
+    image: adminer:4
+    container_name: balen_adminer
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+
+volumes:
+  db_data:
