@@ -10,8 +10,14 @@ block content
   else
     .grid(style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));")
       each u in users
-        .card.hoverable
-          h3(style="margin-bottom: 5px;")
-            a(href=`/users/${u.id}`) 👤 #{u.name}
-          p.text-secondary(style="margin-bottom: 10px; font-size: 0.9em;") 📧 #{u.email}
-          p.text-secondary(style="font-size: 0.85em; margin-top: 15px;") Joined: #{new Date(u.created_at).toLocaleDateString()}
+        .card.hoverable(style="display: flex; gap: 15px; align-items: center;")
+          if u.profile_photo_url
+            img(src=u.profile_photo_url style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover;")
+          else
+            div(style="width: 60px; height: 60px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;") 👤
+          
+          div
+            h3(style="margin-bottom: 5px;")
+              a(href=`/users/${u.id}`) #{u.name}
+            p.text-secondary(style="margin-bottom: 5px; font-size: 0.9em;") 📧 #{u.email}
+            p.text-secondary(style="font-size: 0.85em;") Joined: #{new Date(u.created_at).toLocaleDateString()}

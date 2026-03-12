@@ -1,12 +1,21 @@
 const express = require("express");
+const multer = require("multer");
+const path = require("path");
 const router = express.Router();
 const { pool } = require("../db");
+const { requireAuth } = require("../middleware/auth");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) { cb(null, path.join(__dirname, "../public/uploads")); },
+  filename: function (req, file, cb) { cb(null, Date.now() + '-profile-' + file.originalname); }
+});
+const upload = multer({ storage: storage });
 
 // Users list
 router.get("/", async (req, res, next) => {
   try {
     const [users] = await pool.query(
-      "SELECT id, name, email, created_at FROM users ORDER BY created_at DESC"
+      "SELECT id, name, email, profile_photo_url, created_at FROM users ORDER BY created_at DESC"
     );
     res.render("users", { title: "Community Members", users });
   } catch (e) {
@@ -19,7 +28,7 @@ router.get("/:id", async (req, res, next) => {
   try {
     const userId = Number(req.params.id);
     const [[userProfile]] = await pool.query(
-      "SELECT id, name, email, created_at FROM users WHERE id = ?",
+      "SELECT id, name, email, profile_photo_url, created_at FROM users WHERE id = ?",
       [userId]
     );
     if (!userProfile) return res.status(404).render("error", { title: "Not Found", message: "User not found." });
@@ -52,6 +61,28 @@ router.get("/:id", async (req, res, next) => {
     );
 
     res.render("user", { title: `Profile: ${userProfile.name}`, userProfile, items, claimedItems, stats });
+  } catch (e) {
+    next(e);
+  }
+});
+
+// Update profile photo
+router.post("/:id/photo", requireAuth, upload.single("photo"), async (req, res, next) => {
+  try {
+    const userId = Number(req.params.id);
+    
+    if (userId !== req.user.id) {
+      return res.status(403).render("error", { title: "Access Denied", message: "You can only update your own profile photo." });
+    }
+
+    if (!req.file) {
+      return res.redirect(`/users/${userId}`);
+    }
+
+    const photo_url = `/uploads/${req.file.filename}`;
+    await pool.query("UPDATE users SET profile_photo_url = ? WHERE id = ?", [photo_url, userId]);
+    
+    res.redirect(`/users/${userId}?msg=Profile photo updated!`);
   } catch (e) {
     next(e);
   }

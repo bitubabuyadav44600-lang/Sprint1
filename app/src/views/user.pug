@@ -2,8 +2,19 @@ extends layout
 
 block content
   .card(style="text-align: center; margin-bottom: 30px;")
-    div(style="font-size: 4rem; margin-bottom: 10px;") 👤
+    if userProfile.profile_photo_url
+      img(src=userProfile.profile_photo_url style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 15px; display: inline-block;")
+    else
+      div(style="font-size: 4rem; margin-bottom: 10px;") 👤
+    
     h1(style="margin-bottom: 5px;")= userProfile.name
+    
+    if user && user.id === userProfile.id
+      form(method="POST" action=`/users/${userProfile.id}/photo` enctype="multipart/form-data" style="margin-top: 15px; margin-bottom: 15px; background: #f9f9f9; padding: 10px; border-radius: 8px; max-width: 350px; margin-left: auto; margin-right: auto;")
+        label.form-label.text-secondary(style="font-size: 0.85rem;") Update Profile Picture
+        .flex.gap-2(style="justify-content: center; align-items: center;")
+          input.form-control(type="file" name="photo" accept="image/*" required style="font-size: 0.85rem;")
+          button.btn.btn-primary.btn-sm(type="submit") Upload
     p.text-secondary(style="margin-bottom: 20px;") 📧 #{userProfile.email}
     p.text-secondary Member Since: #{new Date(userProfile.created_at).toLocaleDateString()}
     

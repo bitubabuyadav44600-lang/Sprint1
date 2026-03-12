@@ -12,6 +12,7 @@ CREATE TABLE users (
   name VARCHAR(120) NOT NULL,
   email VARCHAR(120) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
+  profile_photo_url VARCHAR(255) NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
