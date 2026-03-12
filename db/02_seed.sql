@@ -1,9 +1,9 @@
 INSERT IGNORE INTO users (id, name, email, password) VALUES
-(1, 'Aisha Khan', 'aisha@university.edu', '$2b$10$xyzFakeHash1234567890'),
-(2, 'Sam Patel', 'sam@university.edu', '$2b$10$xyzFakeHash1234567890'),
-(3, 'Neha Thapa', 'neha@university.edu', '$2b$10$xyzFakeHash1234567890'),
-(4, 'David Chen', 'david@university.edu', '$2b$10$xyzFakeHash1234567890'),
-(5, 'Maria Gomez', 'maria@university.edu', '$2b$10$xyzFakeHash1234567890');
+(1, 'Aisha Khan', 'aisha@university.edu', '$2b$10$HBoYwjVclD2yn200//ELRu7lWShWviB4YhHIpNwicQBoUf9LtaNYK'),
+(2, 'Sam Patel', 'sam@university.edu', '$2b$10$HBoYwjVclD2yn200//ELRu7lWShWviB4YhHIpNwicQBoUf9LtaNYK'),
+(3, 'Neha Thapa', 'neha@university.edu', '$2b$10$HBoYwjVclD2yn200//ELRu7lWShWviB4YhHIpNwicQBoUf9LtaNYK'),
+(4, 'David Chen', 'david@university.edu', '$2b$10$HBoYwjVclD2yn200//ELRu7lWShWviB4YhHIpNwicQBoUf9LtaNYK'),
+(5, 'Maria Gomez', 'maria@university.edu', '$2b$10$HBoYwjVclD2yn200//ELRu7lWShWviB4YhHIpNwicQBoUf9LtaNYK');
 
 INSERT INTO tags (name) VALUES
 ('vegetarian'), ('vegan'), ('halal'), ('nuts'), ('dairy-free'), ('gluten-free')
