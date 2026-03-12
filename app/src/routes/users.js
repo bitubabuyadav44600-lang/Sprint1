@@ -25,7 +25,8 @@ router.get("/:id", async (req, res, next) => {
     if (!userProfile) return res.status(404).render("error", { title: "Not Found", message: "User not found." });
 
     const [items] = await pool.query(
-      `SELECT id, title, category, expiry_date, status, pickup_location
+      `SELECT id, title, expiry_date, status, pickup_location,
+        (SELECT GROUP_CONCAT(c.name SEPARATOR ', ') FROM item_categories ic JOIN categories c ON ic.category_id = c.id WHERE ic.item_id = items.id) AS categories
        FROM items
        WHERE user_id = ?
        ORDER BY created_at DESC`,
@@ -33,7 +34,8 @@ router.get("/:id", async (req, res, next) => {
     );
 
     const [claimedItems] = await pool.query(
-      `SELECT i.id, i.title, i.category, i.expiry_date, i.status, i.pickup_location, u.name as owner_name
+      `SELECT i.id, i.title, i.expiry_date, i.status, i.pickup_location, u.name as owner_name,
+        (SELECT GROUP_CONCAT(c.name SEPARATOR ', ') FROM item_categories ic JOIN categories c ON ic.category_id = c.id WHERE ic.item_id = i.id) AS categories
        FROM items i
        JOIN claims c ON c.item_id = i.id
        JOIN users u ON u.id = i.user_id

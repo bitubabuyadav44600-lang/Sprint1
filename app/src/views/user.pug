@@ -27,7 +27,8 @@ block content
             a(href=`/listings/${item.id}`)= item.title
           .mb-2
             span.badge(class=`status-${item.status}`)= item.status
-            span.badge(style="background:#eee; color:#333; margin-left:5px;")= item.category
+            if item.categories
+              span.badge(style="background:#eee; color:#333; margin-left:5px;")= item.categories
           p.text-secondary 📍 #{item.pickup_location}
           p.text-secondary 🕒 Expiry: #{new Date(item.expiry_date).toLocaleDateString()}
   if user && user.id === userProfile.id && claimedItems.length > 0
@@ -39,7 +40,8 @@ block content
             a(href=`/listings/${item.id}`)= item.title
           .mb-2
             span.badge(class=`status-${item.status}`)= item.status
-            span.badge(style="background:#eee; color:#333; margin-left:5px;")= item.category
+            if item.categories
+              span.badge(style="background:#eee; color:#333; margin-left:5px;")= item.categories
           p.text-secondary 👤 Owner: #{item.owner_name}
           p.text-secondary 📍 Pickup: #{item.pickup_location}
           p.text-secondary 🕒 Expiry: #{new Date(item.expiry_date).toLocaleDateString()}
