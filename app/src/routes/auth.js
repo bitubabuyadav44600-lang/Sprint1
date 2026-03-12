@@ -14,8 +14,8 @@ router.post("/register", async (req, res, next) => {
   try {
     const { name, email, password, confirmPassword } = req.body;
     
-    if (!email.endsWith("@university.edu")) {
-      return res.render("register", { title: "Register", error: "Registration is restricted to @university.edu email domains." });
+    if (!email.endsWith("@university.edu") && !email.endsWith("@gmail.com")) {
+      return res.render("register", { title: "Register", error: "Registration is restricted to @university.edu or @gmail.com email domains." });
     }
     
     if (password !== confirmPassword) {
